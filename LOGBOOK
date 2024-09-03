@@ -1,1 +1,6 @@
 9/3/2024 - We created the github and began to think of what to do for the project. 
+We thought of two ideas so far, which are as follows:
+  Fan controlled through a relay
+    -Uses a microcontroller and a relay to shut a fan on and off based on the readings of a temp sensor
+  Gyroscope bike
+    -Standard RC bike, but it involves a gyroscope to keep it upright
