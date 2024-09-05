@@ -6,3 +6,8 @@ We thought of two ideas so far, which are as follows:
     -Standard RC bike, but it involves a gyroscope to keep it upright. This involves a microcontroller giving signals to various servos,
     and likely using PWM to control the voltage of the gyroscope. The main challenge would be the power distribution, since there will be a standard brushless motor
     for the gyroscope, and the rest will be servos. We can program the bike to move or we could set it up to be remote controlled
+9/5/2024 - 2nd class, finalizing what we want for our project
+Decided on the gyroscopic bike
+  -using a drone motor and a spinning disk
+  -the rest of the bike will be done with servos
+we will use the github wiki for the documentation
