@@ -18,3 +18,4 @@ Main question, how will the bike know when to activate the stabilizer?
   The objective will be to only stabilize when needed, otherwise it will interfere with the bike leaning into corners.
   Encasing and framing will be made in the makerspace, likely 3d printed. 
   How will the bike be controlled? Most likely rc which would mean a radio receiver and a controller that will send out the signal
+  Will need logic and motor power supply, using the same battery pack.
