@@ -11,3 +11,8 @@ Decided on the gyroscopic bike
   -using a drone motor and a spinning disk
   -the rest of the bike will be done with servos
 we will use the github wiki for the documentation
+9/10/2024 - During Class
+Main question, how will the bike know when to activate the stabilizer?
+  Decided on researching different sensors/ ideas.
+  Battery pack, microcontroller, motor drivers, and the DC motors would be the major moving parts.
+  The objective will be to only stabilize when needed, otherwise it will interfere with the bike leaning into corners.
