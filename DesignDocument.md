@@ -21,5 +21,7 @@ Design Approaches:
 The main challenge is to be able to choose a specific component in the market that matches our needs
 for a reasonable price. For example, if the motor we buy is too weak or too cheap, it may not be able to
 reach the rpm that we need or not have enough torque to spin the mass with enough efficacy. 
+
+The specific parts we bought or looked into so far are listed in another file in the github repository
     
 
