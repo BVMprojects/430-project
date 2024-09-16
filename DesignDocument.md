@@ -1,3 +1,4 @@
+![image](https://github.com/user-attachments/assets/27910dd8-4db2-4cf7-b923-d62b10af6ffb)
 
 This is the basic circuit design for the current project, 
 DIS in this case refers to a buck converter/ other power distribution method to power the arduino
