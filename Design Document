@@ -1,4 +1,4 @@
-![basic layout.png]({{site.baseurl}}/Basic Layout/basic layout.png)
+
 This is the basic circuit design for the current project, DIS in this case refers to a buck converter/ other power distribution method to power the arduino and misc motors using the battery pack on hand.
 
 Major Moving Parts: 
