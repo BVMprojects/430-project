@@ -19,3 +19,9 @@ Main question, how will the bike know when to activate the stabilizer?
   Encasing and framing will be made in the makerspace, likely 3d printed. 
   How will the bike be controlled? Most likely rc which would mean a radio receiver and a controller that will send out the signal
   Will need logic and motor power supply, using the same battery pack.
+9/26/2024 - fleshing out the components even more
+Have a basic schematic that works for it
+decided to test components using a DC power supply
+dedcided on the ADXL345 tilt sensor, only using one axis
+
+
