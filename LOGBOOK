@@ -23,5 +23,8 @@ Main question, how will the bike know when to activate the stabilizer?
 Have a basic schematic that works for it
 decided to test components using a DC power supply
 dedcided on the ADXL345 tilt sensor, only using one axis
+10/1/2024 - Buying and designing more of the schematic
+Decided to try out using and learning about flux, using surface mount or through hole ATMEGA328p.
+Mainly only need PWM and room for extension, no need for any complex calculations other than for the accelerometer. 
 
 
