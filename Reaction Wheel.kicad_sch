@@ -1,0 +1,61 @@
+(kicad_sch
+	(version 20231120)
+	(generator "eeschema")
+	(generator_version "8.0")
+	(uuid "dbd7487d-5ddb-4431-a54e-88e336ed27ff")
+	(paper "A4")
+	(lib_symbols)
+	(sheet
+		(at 22.86 26.67)
+		(size 96.52 102.87)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "a0fe7e99-e973-4d3c-a2fa-a958ed0ae45b")
+		(property "Sheetname" "Atmega 328P"
+			(at 22.86 25.9584 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "untitled.kicad_sch"
+			(at 22.86 130.1246 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(pin "PWMD10" output
+			(at 119.38 50.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+			(uuid "e0b9bd78-87da-49ec-9c87-c5063456c22e")
+		)
+		(instances
+			(project "Reaction Wheel"
+				(path "/dbd7487d-5ddb-4431-a54e-88e336ed27ff"
+					(page "2")
+				)
+			)
+		)
+	)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+)
