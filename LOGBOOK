@@ -29,6 +29,11 @@ Mainly only need PWM and room for extension, no need for any complex calculation
 
 
 TEST
-Motor with ERC 11/12
+Motor with ESC 11/12
 Sensor Test  11/2
 Complete Test  
+
+11/13/2024 - Were able to print out necessary components and did required testing
+ESC was difficult in being able to get to run, this was due to the complexity of the ESC.
+Motor worked well, gained enough RPM but did not overheat. ESC was able to handle the load and the battery gave no issues
+PWM signal was controlled by potentiometer, only issue from that was that it takes longer to go from 0-100% with such a small potentiometer. 
