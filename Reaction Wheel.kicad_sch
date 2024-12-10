@@ -53,6 +53,62 @@
 			)
 		)
 	)
+	(sheet
+		(at 152.4 30.48)
+		(size 88.9 99.06)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "e5d7db47-1fff-4f4b-a3a4-c0d4c0d1cbae")
+		(property "Sheetname" "Mini-controller"
+			(at 152.4 29.7684 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "mini.kicad_sch"
+			(at 152.4 130.1246 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "Field2" ""
+			(at 152.4 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Field3" ""
+			(at 152.4 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project "Reaction Wheel"
+				(path "/dbd7487d-5ddb-4431-a54e-88e336ed27ff"
+					(page "3")
+				)
+			)
+		)
+	)
 	(sheet_instances
 		(path "/"
 			(page "1")
