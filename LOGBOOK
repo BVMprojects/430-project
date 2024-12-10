@@ -37,3 +37,9 @@ Complete Test
 ESC was difficult in being able to get to run, this was due to the complexity of the ESC.
 Motor worked well, gained enough RPM but did not overheat. ESC was able to handle the load and the battery gave no issues
 PWM signal was controlled by potentiometer, only issue from that was that it takes longer to go from 0-100% with such a small potentiometer. 
+
+12/10/24
+Updated PCB design:
+- added copper layer to act as all common grounds 
+- Bill of Materials updated 
+- finals testing and part selection needed
