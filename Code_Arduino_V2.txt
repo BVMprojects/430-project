@@ -10,8 +10,8 @@
 #define GYRO_XOUT_H       0x43
 #define PWR_MGMT_1        0x6B
 
-// Complementary filter constants
-#define Gyro_amount       0.996  // Complementary filter factor
+// Complementary filter and conversion constants
+#define Gyro_amount       0.996    // Complementary filter factor
 const float Gyro_conversion = 6.07968E-5; // converts gyro reading to deg/loop
 const float Degree_conversion = 57.2958;  // rad to deg conversion
 
@@ -21,6 +21,10 @@ float robot_angle = 0;
 float Acc_angle = 0;
 float GyX_offset = 0;
 bool vertical = false;
+
+// PID parameters
+float kp = 0.6;
+float kd = 0.05;
 
 // ESC control via Servo library
 Servo esc;
@@ -46,9 +50,9 @@ void setupMPU6050() {
   Wire.begin();
 
   // Wake up MPU6050 and set ranges
-  writeToMPU(PWR_MGMT_1, 0);  // Wake up
-  writeToMPU(ACCEL_CONFIG, 0); // ±2g
-  writeToMPU(GYRO_CONFIG, 0);  // ±250 deg/s
+  writeToMPU(PWR_MGMT_1, 0);   // Wake up device
+  writeToMPU(ACCEL_CONFIG, 0); // ±2g accelerometer range
+  writeToMPU(GYRO_CONFIG, 0);  // ±250 deg/s gyro range
   delay(100);
 
   // Gyro calibration to find offset
@@ -74,6 +78,14 @@ void readMPU6050Data() {
 
   // Adjust gyro reading by offset
   GyX -= GyX_offset;
+
+  // Print sensor readings
+  Serial.print("AcY: ");
+  Serial.print(AcY);
+  Serial.print(" | AcZ: ");
+  Serial.print(AcZ);
+  Serial.print(" | GyX: ");
+  Serial.println(GyX);
 }
 
 // Uses a complementary filter to combine accelerometer and gyro data to estimate the angle
@@ -88,16 +100,14 @@ void calculateBalance() {
   robot_angle = robot_angle * Gyro_amount + Acc_angle * (1.0 - Gyro_amount);
 }
 
-// Simple PID controller for angle error
+// Simple PD controller for angle error
 float controlMotor(float angle_error) {
   static float previous_error = 0;
-  float kp = 0.6;    // Proportional gain
-  float kd = 0.05;   // Derivative gain
 
   float control_signal = kp * angle_error + kd * (angle_error - previous_error);
   previous_error = angle_error;
 
-  // Limit range
+  // Limit range of control signal
   return constrain(control_signal, -12, 12);
 }
 
@@ -109,7 +119,6 @@ void setup() {
   esc.attach(escPin);
   
   // Initialize ESC at minimum throttle
-  // Check ESC manual for exact initialization sequence
   esc.writeMicroseconds(1000); 
   delay(2000); // wait for ESC to initialize
 }
@@ -118,20 +127,19 @@ void loop() {
   readMPU6050Data();
   calculateBalance();
 
-  // If the tilt angle is large, stop output
+  // If tilt angle is large, stop the motor
   if (abs(robot_angle) > 10) {
-    esc.writeMicroseconds(1500); // Assuming 1500 is neutral
+    esc.writeMicroseconds(1500); // neutral/stop value
     vertical = false;
     return;
   }
 
   vertical = true;
 
-  // Calculate control signal (range -12 to 12)
+  // Calculate control signal from angle error
   float motor_voltage = controlMotor(robot_angle);
 
-  // Map -12..0..12 to 1000..1500..2000 microseconds
-  // Adjust if your ESC requires different ranges
+  // Map the control signal (-12 to 12) to ESC pulse (1000 to 2000 microseconds)
   int escPulse = map((int)motor_voltage, -12, 12, 1000, 2000);
 
   esc.writeMicroseconds(escPulse);
