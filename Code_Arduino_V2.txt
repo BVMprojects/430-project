@@ -1,0 +1,54 @@
+#include <Wire.h>
+#include <Servo.h>
+
+// MPU6050 I2C address and registers
+#define MPU6050_ADDR      0x68
+#define ACCEL_CONFIG      0x1C
+#define GYRO_CONFIG       0x1B
+#define ACCEL_YOUT_H      0x3D
+#define ACCEL_ZOUT_H      0x3F
+#define GYRO_XOUT_H       0x43
+#define PWR_MGMT_1        0x6B
+
+// Complementary filter constants
+#define Gyro_amount       0.996  // Complementary filter factor
+const float Gyro_conversion = 6.07968E-5;
+const float Degree_conversion = 57.2958;
+
+// Global variables
+int16_t AcY, AcZ, GyX;
+float robot_angle = 0;
+float Acc_angle = 0;
+float GyX_offset = 0;
+bool vertical = false;
+
+// ESC control
+Servo esc;
+const int escPin = 9; // PWM pin connected to ESC signal line
+
+// Helper function to write to MPU6050 registers
+void writeToMPU(byte address, byte value) {
+  Wire.beginTransmission(MPU6050_ADDR);
+  Wire.write(address);
+  Wire.write(value);
+  Wire.endTransmission();
+}
+
+// MPU6050 setup
+void setupMPU6050() {
+  Wire.begin();
+  writeToMPU(PWR_MGMT_1, 0);   // Wake up MPU6050
+  writeToMPU(ACCEL_CONFIG, 0); // ±2g range
+  writeToMPU(GYRO_CONFIG, 0);  // ±250 deg/s range
+  delay(100);
+
+  // Gyro calibration (offset calculation)
+  for (int i = 0; i < 1024; i++) {
+    readMPU6050Data();
+    GyX_offset += GyX;
+    delay(5);
+  }
+  GyX_offset /= 1024;
+}
+
+// Function to read MPU6050 dat
