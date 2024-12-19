@@ -1,0 +1,131 @@
+#include <Wire.h>
+#include <SimpleFOC.h>
+
+// MPU6050 I2C address and register definitions
+#define MPU6050_ADDR      0x68
+#define ACCEL_CONFIG      0x1C
+#define GYRO_CONFIG       0x1B
+#define ACCEL_YOUT_H      0x3D
+#define ACCEL_ZOUT_H      0x3F
+#define GYRO_XOUT_H       0x43
+#define PWR_MGMT_1        0x6B
+
+// Complementary filter constants
+#define Gyro_amount       0.996  // Complementary filter factor
+const float Gyro_conversion = 6.07968E-5; // Converts raw gyro data to deg/loop
+const float Degree_conversion = 57.2958;  // Radians to Degrees conversion
+
+// Global variables
+int16_t AcY, AcZ, GyX;
+float robot_angle = 0;
+float Acc_angle = 0;
+float GyX_offset = 0;
+bool vertical = false;
+
+// Motor setup for SimpleFOC
+// Motor connected to a 3-PWM driver on pins 3,5,6 (adjust as needed)
+BLDCMotor motor = BLDCMotor(7);
+BLDCDriver3PWM driver = BLDCDriver3PWM(3, 5, 6); 
+
+// Helper function to write to the MPU6050 registers
+void writeToMPU(byte address, byte value) {
+  Wire.beginTransmission(MPU6050_ADDR);
+  Wire.write(address);
+  Wire.write(value);
+  Wire.endTransmission();
+}
+
+// MPU6050 setup function
+void setupMPU6050() {
+  Wire.begin();
+  
+  // Wake up MPU6050 and configure ranges
+  writeToMPU(PWR_MGMT_1, 0);   // Wake up MPU6050
+  writeToMPU(ACCEL_CONFIG, 0); // ±2g range
+  writeToMPU(GYRO_CONFIG, 0);  // ±250 deg/s range
+  delay(100);
+  
+  // Gyro calibration to find offset
+  for (int i = 0; i < 1024; i++) {
+    readMPU6050Data();
+    GyX_offset += GyX;
+    delay(5);
+  }
+  GyX_offset /= 1024;
+}
+
+// Function to read 6 bytes of data from the MPU6050 and update AcY, AcZ, GyX
+void readMPU6050Data() {
+  Wire.beginTransmission(MPU6050_ADDR);
+  Wire.write(ACCEL_YOUT_H);              
+  Wire.endTransmission(false);
+  Wire.requestFrom(MPU6050_ADDR, 6, true);
+  
+  AcY = Wire.read() << 8 | Wire.read();
+  AcZ = Wire.read() << 8 | Wire.read();
+  GyX = Wire.read() << 8 | Wire.read();
+  
+  // Adjust GyX by subtracting the offset
+  GyX -= GyX_offset;
+}
+
+// Uses a complementary filter to combine gyro and accelerometer data for angle
+void calculateBalance() {
+  // Integrate gyro data
+  robot_angle += -GyX * Gyro_conversion;
+  
+  // Calculate accelerometer angle
+  Acc_angle = atan2(AcY, -AcZ) * Degree_conversion;
+  
+  // Complementary filter
+  robot_angle = robot_angle * Gyro_amount + Acc_angle * (1.0 - Gyro_amount);
+}
+
+// Simple PID controller to determine motor control signal based on angle error
+float controlMotor(float angle_error) {
+  static float previous_error = 0;
+  float kp = 0.6;   // Proportional gain - adjust as needed
+  float kd = 0.05;  // Derivative gain - adjust as needed
+  
+  float control_signal = kp * angle_error + kd * (angle_error - previous_error);
+  previous_error = angle_error;
+  
+  // Constrain output to safe limits
+  return constrain(control_signal, -12, 12);
+}
+
+void setup() {
+  Serial.begin(115200);
+  
+  // Initialize MPU6050
+  setupMPU6050();
+  
+  // Initialize motor driver
+  driver.voltage_power_supply = 12;  // Adjust to your power supply
+  driver.init();
+  motor.linkDriver(&driver);
+  
+  // Configure motor controller
+  motor.controller = ControlType::voltage;
+  motor.init();
+  motor.initFOC();
+}
+
+void loop() {
+  // Read sensor data and update angle
+  readMPU6050Data();
+  calculateBalance();
+  
+  // If the tilt angle is large, stop trying to balance
+  if (abs(robot_angle) > 10) {
+    motor.move(0);
+    vertical = false;
+    return;
+  }
+  
+  vertical = true;
+  
+  // Calculate control signal and move motor
+  float motor_voltage = controlMotor(robot_angle);
+  motor.move(motor_voltage);
+}
