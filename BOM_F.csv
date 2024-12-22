@@ -1,0 +1,12 @@
+Reference	Value	Datasheet	Footprint	Qty	DNP	#	MPN	MFR
+C1	10 uF	~	Capacitor_SMD:C_0603_1608Metric	1		1	CL10A106MQ8NNNC	Samsung
+C2	100nF	~	Capacitor_SMD:C_0603_1608Metric	1		2	C1206C104K5RAC7800	Kemet
+C3,C4	22 pF	~	Capacitor_SMD:C_0603_1608Metric	2		3	885012006004	Würth Elektronik
+D1	LED	~	LED_THT:LED_D4.0mm	1		4	XLM2CRK11W	SunLED
+J1	Conn_01x03_Pin	~	Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Horizontal	1		5	929550-01-03-EU	3M
+J2	Conn_01x04_Socket	~	Connector_PinSocket_2.54mm:PinSocket_1x04_P2.54mm_Vertical	1		6	61300411821	Würth Elektronik
+J3	Conn_02x03_Odd_Even	~	Connector_PinSocket_2.54mm:PinSocket_2x03_P2.54mm_Vertical	1		7		
+R1	10 K	~	Resistor_SMD:R_1206_3216Metric	1		8	3503G2B10KFTD	TE Connectivity Passive Product
+TP1	TestPoint	~	Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical	1		9	61300411121	Würth Elektronik
+U2	ATmega328-P	http://ww1.microchip.com/downloads/en/DeviceDoc/ATmega328_P%20AVR%20MCU%20with%20picoPower%20Technology%20Data%20Sheet%2040001984A.pdf	Package_DIP:DIP-28_W7.62mm_Socket	1		10	1-2199298-9	TE Connectivity AMP Connectors
+Y2	16 Mhz	https://cfd.citizen.co.jp/cms/cfd/pdf/english/CFS-206_CFS-145_E.pdf	Crystal:Crystal_C38-LF_D3.0mm_L8.0mm_Horizontal	1		11	CFS-20632768DZBB	Citizen Finedevice Co Ltd
